@@ -1,7 +1,6 @@
 ### What is this repository for? ###
 
-Artifacts gathered during the Foreman PoC. It should allow you to set up a local foreman instance, resembling what we're rolling out to production. It also documents the needed steps to get foreman running, where those are not automated.
-
+This is a minimal Foreman environment, including a discovery image, to give you a feel of the system.
 
 ### Setting up the environment ###
 
@@ -45,8 +44,13 @@ By default, foreman requires users connect via HTTPS. However, as you're using V
 ### Provisioning hosts ###
 
 First, make sure you set up an "Operating System" and associate a "Template" with it. Once that's done, you're ready to go.
+
 The first time you boot up "client1" or "client2", they will run the discovery image, and will be lised under "Hosts" -> "Discovered hosts" in the Foreman web interface.
-To provision a discovered host, go into "Hosts" -> "Discovered hosts" and click on "provision" next to the host you want to provision. You will be presented with a config screen, where you'll need to enter a hostname and select the "Operating System" and "Provisioning template" you configured previously. After a host is set to be provisioned, it will no longer appear under "Discovered hosts", and instead will show up under "Hosts" -> "All hosts".
+
+To provision a discovered host, go into "Hosts" -> "Discovered hosts" and click on "provision" next to the host you want to provision. You will be presented with a config screen, where you'll need to enter a hostname and select the "Operating System" and "Provisioning template" you configured previously.
+
+After a host is set to be provisioned, it will no longer appear under "Discovered hosts", and instead will show up under "Hosts" -> "All hosts".
+
 To return a host into discoevry mode, delete it from "All hosts" and reboot it using "vagrant reload".
 
 NOTE: The first time you provision a host, installer image files will be pulled into the TFTP server (infra node) from the repo. This could take a couple of minutes, so you may find that the first couple of times provisioning fails with a "VFS error". Wait a minute or two and retry.
