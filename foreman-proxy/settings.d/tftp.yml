@@ -1,0 +1,9 @@
+---
+# Can be true, false, or http/https to enable just one of the protocols
+:enabled: true
+:tftproot: /var/lib/tftpboot/
+:tftp_servername: 172.16.16.101
+
+#:tftproot: /var/lib/tftpboot
+# Defines the TFTP Servername to use, overrides the name in the subnet declaration
+#:tftp_servername: tftp.domain.com

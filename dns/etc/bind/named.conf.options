@@ -1,0 +1,4 @@
+directory "/var/cache/bind";
+forwarders { 8.8.8.8; };
+
+listen-on-v6 { any; };

@@ -1,0 +1,12 @@
+$ORIGIN .
+$TTL 10800	; 3 hours
+16.16.172.in-addr.arpa	IN SOA	infra.example.com. root.16.16.172.in-addr.arpa. (
+				14         ; serial
+				86400      ; refresh (1 day)
+				3600       ; retry (1 hour)
+				604800     ; expire (1 week)
+				3600       ; minimum (1 hour)
+				)
+			NS	infra.example.com.
+$ORIGIN 16.16.172.in-addr.arpa.
+$TTL 86400	; 1 day

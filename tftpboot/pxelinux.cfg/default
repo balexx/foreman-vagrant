@@ -1,0 +1,20 @@
+
+DEFAULT menu
+PROMPT 0
+MENU TITLE PXE Menu
+TIMEOUT 200
+TOTALTIMEOUT 6000
+ONTIMEOUT discovery
+
+LABEL local
+     MENU LABEL (local)
+     MENU DEFAULT
+     LOCALBOOT 0
+
+LABEL discovery
+     MENU LABEL Foreman Discovery
+     MENU DEFAULT
+     KERNEL boot/fdi-image/vmlinuz0
+     APPEND initrd=boot/fdi-image/initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=http://fproxy:8000 proxy.type=proxy fdi.ssh=1 fdi.rootpw=password
+     IPAPPEND 2
+
