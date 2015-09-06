@@ -16,7 +16,7 @@
 #- foreman.prod.domain
 #- foreman.dev.domain
 
-:foreman_url: http://172.16.16.100:80
+:foreman_url: https://172.16.16.100:443
 
 # by default smart_proxy runs in the foreground. To enable running as a daemon, uncomment 'daemon' setting
 :daemon: true

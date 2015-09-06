@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+foreman_version = "1.9"
 
 set_host = <<-EOF
   ## hostname, DNS, just get connectivity working
@@ -46,8 +47,8 @@ Vagrant.configure('2') do |config|
       dpkg -i puppetlabs-release-precise.deb
   
       # foreman repos
-      echo "deb http://deb.theforeman.org/ precise 1.8" > /etc/apt/sources.list.d/foreman.list
-      echo "deb http://deb.theforeman.org/ plugins 1.8" >> /etc/apt/sources.list.d/foreman.list
+      echo "deb http://deb.theforeman.org/ precise #{foreman_version}" > /etc/apt/sources.list.d/foreman.list
+      echo "deb http://deb.theforeman.org/ plugins #{foreman_version}" >> /etc/apt/sources.list.d/foreman.list
       wget -q http://deb.theforeman.org/pubkey.gpg -O- | apt-key add -
       
       # ruby passenger packages - http://projects.theforeman.org/issues/11069
@@ -103,8 +104,8 @@ Vagrant.configure('2') do |config|
       dpkg -i puppetlabs-release-precise.deb
 
       # foreman repos
-      echo "deb http://deb.theforeman.org/ precise 1.8" > /etc/apt/sources.list.d/foreman.list
-      echo "deb http://deb.theforeman.org/ plugins 1.8" >> /etc/apt/sources.list.d/foreman.list
+      echo "deb http://deb.theforeman.org/ precise #{foreman_version}" > /etc/apt/sources.list.d/foreman.list
+      echo "deb http://deb.theforeman.org/ plugins #{foreman_version}" >> /etc/apt/sources.list.d/foreman.list
       wget -q http://deb.theforeman.org/pubkey.gpg -O- | apt-key add -
 
       apt-get update
