@@ -76,7 +76,7 @@ Vagrant.configure('2') do |config|
         --foreman-admin-password='password'
 
       # configure some basic params in foreman
-      /vargrant/configure.rb
+      /vagrant/configure.rb
     EOF
   end
 
