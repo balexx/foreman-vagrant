@@ -90,3 +90,92 @@ proxies.each_key do |key|
   proxies[key][:id] = find_id('proxy', key)
 end
 
+
+##########################################
+### os
+##########################################
+
+# define
+os = Hash.new
+os['name'] = 'Ubuntu'
+os['major'] = '14.04'
+os['family'] = 'Debian'
+os['architectures'] = 'x86_64'
+os['release-name'] = 'vivid'
+os['media'] = 'Ubuntu mirror'
+os['partition-tables'] = 'Preseed default'
+os_templates = ['Preseed default', 'Preseed default PXELinux', 'Preseed default finish']
+
+# set
+hammer_multiarg 'os create', os
+
+# add os to templates
+templates = Hash.new
+templates['operatingsystem'] = "#{os['name']} #{os['major']}"
+
+os_templates.each do |temp|
+  templates['name'] = temp
+  hammer_multiarg 'template add-operatingsystem', templates
+end
+
+# map templates to os
+map_templates = Hash.new
+map_templates['id'] = '1'
+map_templates['provisioning-templates'] = os_templates.join(',')
+hammer_multiarg 'os update', map_templates
+
+# set default templates
+default_templates = Hash.new
+default_templates['id'] = '1'
+`#{$hammer} template list |grep 'Preseed default' |grep -E '(provision|PXELinux|finish)' |awk '{print $1}'`.each do |id|
+  default_templates['config-template-id'] = id
+  hammer_multiarg 'os set-default-template', default_templates
+end
+
+# create chef_integration snippet
+snippet = Hash.new
+snippet['name'] = 'chef_integration'
+snippet['type'] = 'snippet'
+snippet['file'] = '/vagrant/snippet/chef_integration.erb'
+hammer_multiarg 'template create', snippet
+
+# update finish template
+`hammer template dump --name "Preseed default finish" > /tmp/temp.erb`
+`echo "<%= snippet 'chef_integration' %>" >> /tmp/temp.erb`
+
+update_temp = Hash.new
+update_temp['name'] = 'Preseed default finish'
+update_temp['file'] = '/tmp/temp.erb'
+hammer_multiarg 'template update', update_temp
+
+##########################################
+### domain
+##########################################
+
+# define
+domain = Hash.new
+domain['name'] = 'example.com'
+domain['dns-id'] = '1'
+
+# set
+hammer_multiarg 'domain create', domain
+
+##########################################
+### subnet
+##########################################
+
+# define
+subnet = Hash.new
+subnet['name'] = '172-16-16-0_24'
+subnet['network'] = '172.16.16.0'
+subnet['mask'] = '255.255.255.0'
+subnet['ipam'] = 'DHCP'
+subnet['boot-mode'] = 'DHCP'
+subnet['domain-ids'] = '1'
+subnet['dhcp-id'] = '1'
+subnet['dns-id'] = '1'
+subnet['tftp-id'] = '1'
+
+# set
+hammer_multiarg 'subnet create', subnet
+
