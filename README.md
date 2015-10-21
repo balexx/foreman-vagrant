@@ -6,6 +6,7 @@ This is a minimal Foreman environment, including a discovery image, to give you 
 
 To setup a Foreman env, run the following:
 
+* vagrant up chef
 * vagrant up infra
 * vagrant up foreman
 * vagrant up client1

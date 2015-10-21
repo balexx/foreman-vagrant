@@ -1,0 +1,33 @@
+<%#
+kind: snippet
+name: chef_integration
+%>
+
+wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chef_12.5.1-1_amd64.deb -O /tmp/chef_12.5.1-1_amd64.deb
+
+dpkg -i /tmp/chef_12.5.1-1_amd64.deb
+
+/opt/chef/embedded/bin/gem install chef_handler_foreman
+
+mkdir -p /etc/chef
+
+wget http://172.16.16.100:81/validation.pem -O /etc/chef/validation.pem
+
+echo "172.16.16.102 chef.example.com" >> /etc/hosts
+
+cat <<EOF > /etc/chef/client.rb
+chef_server_url "https://chef.example.com"
+validation_client_name "chef-validator"
+validation_key "/etc/chef/validation.pem"
+client_key "/etc/chef/client.pem"
+require 'chef_handler_foreman'
+foreman_server_options :url => 'http://172.16.16.101:8000'
+foreman_facts_upload true
+foreman_reports_upload true
+reports_log_level 'notice'
+EOF
+
+knife ssl fetch -c /etc/chef/client.rb
+
+chef-client -r recipe[ohai]
+
